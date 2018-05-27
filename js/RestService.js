@@ -11,11 +11,11 @@ var RestService = function($http, $httpParamSerializer, $q) {
       method: 'GET',
       url:  url,
       params: params,
-    }).success(function(data) {
-      deferred.resolve(data);
-    }).error(function(error) {
-      deferred.reject(error);
-    });
+    }).then(function(result) {
+      deferred.resolve(result)
+     }, function(error) {
+     deferred.reject(error);
+     });  
 
     return deferred.promise;
   }
