@@ -3,7 +3,7 @@ app.controller("myCtrl", function($scope , RestService) {
     $scope.actors = [{"name":"dulfrey" , "capability":0.5,"influence":0.2 ,"position":40}];
     $scope.newActor = {name:""}
     $scope.addActor = function () {
-        $scope.actors.push($scope.newActor);
+        $scope.actors.push(angular.copy($scope.newActor));
         console.log($scope.actors);
     } 
     $scope.delActor = function (actor) {
