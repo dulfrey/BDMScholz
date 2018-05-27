@@ -1,14 +1,24 @@
 var app = angular.module("BDMscholz", []); 
-app.controller("myCtrl", function($scope) {
-    $scope.actors = [{name:"dulfrey" , capability:0.5, influence:0.2 ,position:40}];
+app.controller("myCtrl", function($scope , RestService) {
+    $scope.actors = [{"name":"dulfrey" , "capability":0.5,"influence":0.2 ,"position":40}];
     $scope.newActor = {name:""}
     $scope.addActor = function () {
         $scope.actors.push($scope.newActor);
+        console.log($scope.actors);
     } 
     $scope.delActor = function (actor) {
         const index = $scope.actors.indexOf(actor);
     	$scope.actors.splice(index, 1);
+
     } 
+    $scope.calculate  = function () {
+    	RestService.sendJson("https://httpbin.org/post",$scope.actors).then(function  (request) {  
+	            console.info(request)
+	          }).catch(function(err) {
+	             $scope.requestError(err);
+	           }).then(function() {
+	           });
+    }
     $scope.clear = function () {
     		$scope.actors = []
     }		
