@@ -15,6 +15,16 @@ app.controller("myCtrl", function($scope , RestService) {
     $scope.calculate  = function () {
     	RestService.sendJson("https://httpbin.org/post",$scope.actors).then(function  (request) {  
 	            console.info(request)
+	            if (request.status == 'ok') {
+	            	RestService.get("https://httpbin.org/get","").then(function  (request) {  
+	            		$scope.myChartObject.data.cols = request.cols;
+	            		$scope.myChartObject.data.rows = request.rows;
+	            	}).catch(function(err) {
+			             $scope.requestError(err);
+			           }).then(function() {
+			           });
+	            }
+	            
 	          }).catch(function(err) {
 	             $scope.requestError(err);
 	           }).then(function() {
@@ -24,23 +34,6 @@ app.controller("myCtrl", function($scope , RestService) {
     		$scope.actors = []
     }		
 
-
-    	$scope.download_csv = function () {
-		    var csv = 'Name,Title\n';
-		    data.forEach(function(row) {
-		            csv += row.join(',');
-		            csv += "\n";
-		    });
-		 
-		    console.log(csv);
-		    var hiddenElement = document.createElement('a');
-		    hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
-		    hiddenElement.target = '_blank';
-		    hiddenElement.download = 'people.csv';
-		    hiddenElement.click();
-	}
-
-	
         // Properties
         $scope.myChartObject = {};
 
